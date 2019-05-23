@@ -16,6 +16,7 @@ import (
 
 type repo struct {
 	*url.URL
+	subdir string
 }
 
 func (r repo) CloneURI() string {
@@ -27,9 +28,7 @@ func (r repo) CloneURI() string {
 }
 
 func (r repo) DockerName() string {
-	return toDockerName(
-		r.trimPath(),
-	)
+	return toDockerName(r.trimPath())
 }
 
 func (r repo) trimPath() string {
@@ -50,7 +49,7 @@ func parseRepo(defaultSchema, defaultHost, name string) (repo, error) {
 		return repo{}, xerrors.Errorf("failed to parse repo path: %w", err)
 	}
 
-	r := repo{u}
+	r := repo{URL: u}
 
 	if r.Scheme == "" {
 		r.Scheme = defaultSchema
@@ -74,8 +73,8 @@ func parseRepo(defaultSchema, defaultHost, name string) (repo, error) {
 	// make sure the path doesn't have a trailing .git
 	r.Path = strings.TrimSuffix(r.Path, ".git")
 
-	// non-existent or invalid path
-	if r.Path == "" || len(strings.Split(r.Path, "/")) != 2 {
+	// non-existent
+	if r.Path == "" || {
 		return repo{}, xerrors.Errorf("invalid repo: %s", r.Path)
 	}
 

@@ -18,9 +18,10 @@ import (
 	"sync/atomic"
 	"time"
 
+	"golang.org/x/xerrors"
+
 	"go.coder.com/cli"
 	"go.coder.com/flog"
-	"golang.org/x/xerrors"
 )
 
 func codeServerProxy(w http.ResponseWriter, r *http.Request, port string) {
