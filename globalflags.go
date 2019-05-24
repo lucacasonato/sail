@@ -85,7 +85,7 @@ func requireRepo(conf config, prefs schemaPrefs, fl *flag.FlagSet) repo {
 // pathIsRunnable returns true if the given path exists and is
 // in the projects directory. An error is returned if and only if
 // the path exists but it isn't in the user's project directory.
-func pathIsRunnable(conf config, path string) (cnt string, err error) {
+func pathIsRunnable(conf config, path string) (cnt string, _ error) {
 	fp, err := filepath.Abs(path)
 	if err != nil {
 		return
