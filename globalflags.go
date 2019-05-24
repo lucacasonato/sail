@@ -55,7 +55,7 @@ func requireRepo(conf config, prefs schemaPrefs, fl *flag.FlagSet) repo {
 		flog.Fatal("Argument <repo> must be provided.")
 	}
 
-	// if this returns a non-empty string know it's an existing absolute path
+	// if this returns a non-empty string know it's pointing to a valid project on disk
 	// an error indicates an existing path outside of the project dir
 	repoName, err := pathIsRunnable(conf, repoURI)
 	if err != nil {
@@ -64,7 +64,7 @@ func requireRepo(conf config, prefs schemaPrefs, fl *flag.FlagSet) repo {
 
 	if repoName != "" {
 		// we only need the path since the repo exists on disk.
-		// there's no way for us to figure out the host anyways
+		// there's not currently way for us to figure out the host anyways
 		r = repo{URL: &url.URL{Path: repoName}}
 	} else {
 		r, err = parseRepo(defaultSchema(conf, prefs), conf.DefaultHost, repoURI)
@@ -82,9 +82,9 @@ func requireRepo(conf config, prefs schemaPrefs, fl *flag.FlagSet) repo {
 	return r
 }
 
-// pathIsRunnable returns true if the given path exists and is
-// in the projects directory. An error is returned if and only if
-// the path exists but it isn't in the user's project directory.
+// pathIsRunnable returns the container name if the given path exists and is
+// in the projects directory, else an empty string An error is returned if
+// and only if the path exists but it isn't in the user's project directory.
 func pathIsRunnable(conf config, path string) (cnt string, _ error) {
 	fp, err := filepath.Abs(path)
 	if err != nil {
@@ -100,14 +100,10 @@ func pathIsRunnable(conf config, path string) (cnt string, _ error) {
 		return
 	}
 
-	pre := func() string {
-		r := expandRoot(conf.ProjectRoot)
-		if r[len(r)-1] != '/' {
-			return r + "/"
-		}
-
-		return r
-	}()
+	pre := expandRoot(conf.ProjectRoot)
+	if pre[len(pre)-1] != '/' {
+		pre = pre + "/"
+	}
 
 	// path exists but doesn't belong to projects directory, return error
 	if !strings.HasPrefix(fp, pre[:len(pre)-1]) {
