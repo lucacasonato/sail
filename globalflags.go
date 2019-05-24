@@ -55,7 +55,8 @@ func requireRepo(conf config, prefs schemaPrefs, fl *flag.FlagSet) repo {
 		flog.Fatal("Argument <repo> must be provided.")
 	}
 
-	// if this returns true we know it's an existing absolute path
+	// if this returns a non-empty string know it's an existing absolute path
+	// an error indicates an existing path outside of the project dir
 	repoName, err := pathIsRunnable(conf, repoURI)
 	if err != nil {
 		flog.Fatal(err.Error())

@@ -74,7 +74,7 @@ func parseRepo(defaultSchema, defaultHost, name string) (repo, error) {
 	r.Path = strings.TrimSuffix(r.Path, ".git")
 
 	// non-existent
-	if r.Path == "" || {
+	if r.Path == "" {
 		return repo{}, xerrors.Errorf("invalid repo: %s", r.Path)
 	}
 
