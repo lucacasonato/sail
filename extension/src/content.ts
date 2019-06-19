@@ -39,12 +39,12 @@ const doConnection = (socketUrl: string, projectUrl: string, onMessage: (data: {
 
 const ensureButton = (): void | HTMLElement => {
 	const buttonId = "openinsail";
-	const btn = document.querySelector(buttonId) as HTMLElement;
+	const btn = document.getElementById(buttonId) as HTMLElement;
 	if (btn) {
 		return btn;
 	}
 
-	const githubMenu = document.querySelector(".get-repo-select-menu");
+	const githubMenu = document.getElementsByClassName("get-repo-select-menu")[0];
 	let button: HTMLElement | void;
 	if (githubMenu) {
 		// GitHub
@@ -53,7 +53,7 @@ const ensureButton = (): void | HTMLElement => {
 		githubMenu.parentElement.appendChild(button);
 
 	}
-	const gitlabMenu = document.querySelector(".project-repo-buttons") as HTMLElement;
+	const gitlabMenu = document.getElementsByClassName("project-repo-buttons")[0] as HTMLElement;
 	if (gitlabMenu) {
 		// GitLab
 		button = createGitLabButton(gitlabMenu);

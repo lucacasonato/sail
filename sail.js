@@ -13,7 +13,7 @@
         document.body.onkeydown = ev => {
             ev.stopPropagation()
         }
-        document.querySelector(".monaco-workbench").appendChild(div)
+        document.getElementsByClassName("monaco-workbench")[0].appendChild(div)
     }
 
     function removeElementsByClass(className) {

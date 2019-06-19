@@ -127,7 +127,7 @@ const play = async () => {
 	btn.style.filter = "brightness(100%)";
 
 	await wait(550);
-	const codeBox = document.querySelector(".code");
+	const codeBox = document.getElementsByClassName("code")[0];
 	if (!codeBox) {
 		throw new Error("developer error: no code found");
 	}
